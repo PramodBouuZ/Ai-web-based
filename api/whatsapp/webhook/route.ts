@@ -1,0 +1,4 @@
+import { NextResponse } from 'next/server';
+import { verifyFacebookSignature } from '@/lib/whatsapp';
+export async function GET(req){ const url = new URL(req.url); const mode = url.searchParams.get('hub.mode'); const token = url.searchParams.get('hub.verify_token'); const challenge = url.searchParams.get('hub.challenge'); if(mode === 'subscribe' && token === process.env.WHATSAPP_VERIFY_TOKEN) return new Response(challenge || 'ok', { status: 200 }); return NextResponse.json({ error: 'Invalid token' }, { status: 403 }); }
+export async function POST(req){ const raw = Buffer.from(await req.arrayBuffer()); const sig = req.headers.get('x-hub-signature-256'); if(process.env.WHATSAPP_APP_SECRET){ if(!verifyFacebookSignature(raw, sig)) return NextResponse.json({ error: 'Invalid signature' }, { status: 403 }); } const body = JSON.parse(raw.toString()); console.log('WA webhook event:', JSON.stringify(body).slice(0,1000)); return NextResponse.json({ success: true }); }
