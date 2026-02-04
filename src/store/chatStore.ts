@@ -162,6 +162,7 @@ interface ChatActions {
   requestHandoff: (conversationId: string, reason: string) => void;
   acceptHandoff: (conversationId: string) => void;
   transferConversation: (conversationId: string, toAgentId: string, reason?: string) => void;
+  toggleBot: (conversationId: string, active: boolean) => void;
 }
 
 // ============================================
@@ -692,13 +693,13 @@ export const useChatStore = create<ChatState & ChatActions>()(
         const state = get();
         
         // Check if conversation exists
-        const conversation = state.conversations.find(
+        let conversation = state.conversations.find(
           (c) => c.id === message.conversationId
         );
 
         if (!conversation) {
           // Create new conversation
-          const newConversation: Conversation = {
+          conversation = {
             id: message.conversationId,
             tenantId: message.tenantId,
             phoneNumberId: 'default',
@@ -725,7 +726,36 @@ export const useChatStore = create<ChatState & ChatActions>()(
             resolutionTime: null,
           };
 
-          get().addConversation(newConversation);
+          get().addConversation(conversation);
+
+          // Apply Keyword Routing for new conversation
+          const text = message.content.text?.toLowerCase() || '';
+          const matchedKeyword = state.keywordMappings.find(km =>
+            km.isActive && text.includes(km.keyword.toLowerCase())
+          );
+
+          if (matchedKeyword) {
+            if (matchedKeyword.action.type === 'assign_agent' && matchedKeyword.action.targetId) {
+              get().assignConversation(conversation.id, matchedKeyword.action.targetId);
+            } else if (matchedKeyword.action.type === 'assign_queue') {
+              get().updateConversation(conversation.id, {
+                assignedQueueId: matchedKeyword.action.targetId,
+                status: 'queued'
+              });
+            }
+          } else {
+            // Apply Round-robin if no keyword matches and no agent assigned
+            const onlineAgents = state.agents.filter(a => a.status === 'online');
+            if (onlineAgents.length > 0) {
+              // Simple round-robin: assign to agent with fewest active conversations
+              const agentLoads = onlineAgents.map(agent => ({
+                id: agent.id,
+                count: state.conversations.filter(c => c.assignedAgentId === agent.id && c.status === 'active').length
+              }));
+              const leastBusyAgent = agentLoads.sort((a, b) => a.count - b.count)[0];
+              get().assignConversation(conversation.id, leastBusyAgent.id);
+            }
+          }
         }
 
         // Add message
@@ -810,6 +840,12 @@ export const useChatStore = create<ChatState & ChatActions>()(
         get().updateConversation(conversationId, {
           assignedAgentId: toAgentId,
           status: 'assigned',
+        });
+      },
+
+      toggleBot: (conversationId, active) => {
+        get().updateConversation(conversationId, {
+          botActive: active,
         });
       },
     }),

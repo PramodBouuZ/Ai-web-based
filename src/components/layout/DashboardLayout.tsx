@@ -13,7 +13,7 @@ export function DashboardLayout() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#25D366] border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-[#0B5ED7] border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-500">Loading...</p>
         </div>
       </div>
@@ -40,6 +40,7 @@ export function DashboardLayout() {
       '/users': { title: 'User Management', subtitle: 'Manage team members' },
       '/subscription': { title: 'Subscription', subtitle: 'Manage your plan' },
       '/settings': { title: 'Settings', subtitle: 'Configure your account' },
+      '/tenants': { title: 'Tenant Management', subtitle: 'Manage multi-tenant accounts' },
       '/agent-dashboard': { title: 'Agent Dashboard', subtitle: 'Real-time chat management' },
       '/routing-rules': { title: 'Routing Rules', subtitle: 'Manage conversation routing' },
     };

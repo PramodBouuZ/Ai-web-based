@@ -51,6 +51,7 @@ import type { Automation } from '@/types';
 const mockAutomations: Automation[] = [
   {
     id: '1',
+    tenantId: 'tenant_1',
     name: 'Welcome New Contacts',
     description: 'Send a welcome message when a new contact is added',
     status: 'active',
@@ -64,6 +65,7 @@ const mockAutomations: Automation[] = [
   },
   {
     id: '2',
+    tenantId: 'tenant_1',
     name: 'Follow-up After 24h',
     description: 'Send follow-up message if no response after 24 hours',
     status: 'active',
@@ -77,6 +79,7 @@ const mockAutomations: Automation[] = [
   },
   {
     id: '3',
+    tenantId: 'tenant_1',
     name: 'Tag VIP Customers',
     description: 'Automatically tag customers who spend over $1000',
     status: 'inactive',
@@ -90,6 +93,7 @@ const mockAutomations: Automation[] = [
   },
   {
     id: '4',
+    tenantId: 'tenant_1',
     name: 'Birthday Wishes',
     description: 'Send birthday messages to contacts',
     status: 'active',
@@ -147,6 +151,7 @@ export function Automations() {
   const handleCreate = () => {
     const newAutomation: Automation = {
       id: Date.now().toString(),
+      tenantId: 'tenant_1',
       name: newAutomationName,
       description: '',
       status: 'inactive',

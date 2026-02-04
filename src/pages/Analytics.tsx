@@ -76,7 +76,7 @@ export function Analytics() {
       value: stats.totalMessagesSent,
       trend: stats.trends.messagesSent,
       icon: MessageSquare,
-      color: '#25D366',
+      color: '#0B5ED7',
     },
     {
       id: 'conversations',
@@ -122,7 +122,12 @@ export function Analytics() {
             </SelectContent>
           </Select>
         </div>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          onClick={() => {
+            alert('Exporting report as PDF...');
+          }}
+        >
           <Download className="w-4 h-4 mr-2" />
           Export Report
         </Button>
@@ -135,7 +140,7 @@ export function Analytics() {
             key={metric.id}
             className={cn(
               'cursor-pointer transition-all',
-              activeMetric === metric.id && 'ring-2 ring-[#25D366]'
+              activeMetric === metric.id && 'ring-2 ring-[#0B5ED7]'
             )}
             onClick={() => setActiveMetric(metric.id)}
           >
@@ -210,7 +215,7 @@ export function Analytics() {
                 <Area
                   type="monotone"
                   dataKey="messagesSent"
-                  stroke="#25D366"
+                  stroke="#0B5ED7"
                   strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorMessages)"
@@ -256,7 +261,7 @@ export function Analytics() {
                   <YAxis dataKey="name" type="category" width={120} stroke="#9ca3af" />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="sent" fill="#25D366" name="Sent" />
+                  <Bar dataKey="sent" fill="#0B5ED7" name="Sent" />
                   <Bar dataKey="delivered" fill="#34B7F1" name="Delivered" />
                   <Bar dataKey="read" fill="#128C7E" name="Read" />
                 </BarChart>
@@ -279,7 +284,7 @@ export function Analytics() {
                   <XAxis dataKey="hour" stroke="#9ca3af" />
                   <YAxis stroke="#9ca3af" />
                   <Tooltip />
-                  <Bar dataKey="messages" fill="#25D366" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="messages" fill="#0B5ED7" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -344,7 +349,7 @@ export function Analytics() {
                 <Line
                   type="monotone"
                   dataKey="contacts"
-                  stroke="#25D366"
+                  stroke="#0B5ED7"
                   strokeWidth={2}
                   dot={false}
                 />

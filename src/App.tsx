@@ -14,6 +14,7 @@ import { Analytics } from '@/pages/Analytics';
 import { UserManagement } from '@/pages/UserManagement';
 import { Subscription } from '@/pages/Subscription';
 import { Settings } from '@/pages/Settings';
+import { TenantManagement } from '@/pages/TenantManagement';
 import AgentDashboard from '@/pages/AgentDashboard';
 import RoutingRules from '@/pages/RoutingRules';
 
@@ -47,23 +48,10 @@ function App() {
           <Route path="users" element={<UserManagement />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="tenants" element={<TenantManagement />} />
+          <Route path="agent-dashboard" element={<AgentDashboard />} />
+          <Route path="routing-rules" element={<RoutingRules />} />
         </Route>
-        <Route
-          path="/agent-dashboard"
-          element={
-            <ProtectedRoute>
-              <AgentDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/routing-rules"
-          element={
-            <ProtectedRoute>
-              <RoutingRules />
-            </ProtectedRoute>
-          }
-        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

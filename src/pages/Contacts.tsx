@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cn, formatNumber, getInitials } from '@/lib/utils';
+import { useContactsStore } from '@/store';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -59,6 +60,7 @@ import type { Contact, ContactGroup } from '@/types';
 const mockContacts: Contact[] = [
   {
     id: '1',
+    tenantId: 'tenant_1',
     name: 'John Smith',
     phoneNumber: '+1 (555) 123-4567',
     email: 'john@example.com',
@@ -70,6 +72,7 @@ const mockContacts: Contact[] = [
   },
   {
     id: '2',
+    tenantId: 'tenant_1',
     name: 'Sarah Johnson',
     phoneNumber: '+1 (555) 987-6543',
     email: 'sarah@example.com',
@@ -81,6 +84,7 @@ const mockContacts: Contact[] = [
   },
   {
     id: '3',
+    tenantId: 'tenant_1',
     name: 'Michael Brown',
     phoneNumber: '+1 (555) 456-7890',
     email: 'michael@example.com',
@@ -92,6 +96,7 @@ const mockContacts: Contact[] = [
   },
   {
     id: '4',
+    tenantId: 'tenant_1',
     name: 'Emily Davis',
     phoneNumber: '+1 (555) 234-5678',
     email: 'emily@example.com',
@@ -103,6 +108,7 @@ const mockContacts: Contact[] = [
   },
   {
     id: '5',
+    tenantId: 'tenant_1',
     name: 'David Wilson',
     phoneNumber: '+1 (555) 876-5432',
     email: 'david@example.com',
@@ -124,7 +130,7 @@ const mockGroups: ContactGroup[] = [
 const allTags = ['Customer', 'Lead', 'VIP', 'Hot', 'New', 'Inactive', 'Prospect'];
 
 export function Contacts() {
-  const [contacts, setContacts] = useState(mockContacts);
+  const { contacts, isLoading, addContact, deleteContact } = useContactsStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -145,27 +151,21 @@ export function Contacts() {
     return matchesSearch && matchesTags;
   });
 
-  const handleAddContact = () => {
-    const newContact: Contact = {
-      id: Date.now().toString(),
+  const handleAddContact = async () => {
+    await addContact({
       name: newContactName,
       phoneNumber: newContactPhone,
       email: newContactEmail,
-      tags: [],
-      customFields: {},
-      createdAt: new Date().toISOString(),
-      userId: '1',
-    };
-    setContacts([...contacts, newContact]);
+    });
     setIsAddDialogOpen(false);
     setNewContactName('');
     setNewContactPhone('');
     setNewContactEmail('');
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedContact) {
-      setContacts(contacts.filter((c) => c.id !== selectedContact.id));
+      await deleteContact(selectedContact.id);
       setIsDeleteDialogOpen(false);
       setSelectedContact(null);
     }
@@ -341,7 +341,7 @@ export function Contacts() {
             className={cn(
               'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
               selectedTags.includes(tag)
-                ? 'bg-[#25D366] text-white'
+                ? 'bg-[#0B5ED7] text-white'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200'
             )}
           >

@@ -18,6 +18,7 @@ interface ChatbotState {
 const mockChatbots: Chatbot[] = [
   {
     id: 'bot_1',
+    tenantId: 'tenant_1',
     name: 'Customer Support',
     description: 'Handles customer inquiries and support requests',
     status: 'active',
@@ -79,6 +80,7 @@ const mockChatbots: Chatbot[] = [
   },
   {
     id: 'bot_2',
+    tenantId: 'tenant_1',
     name: 'Sales Assistant',
     description: 'Helps customers with product inquiries and sales',
     status: 'active',
@@ -127,6 +129,7 @@ const mockChatbots: Chatbot[] = [
   },
   {
     id: 'bot_3',
+    tenantId: 'tenant_2',
     name: 'Appointment Bot',
     description: 'Schedules appointments and manages bookings',
     status: 'inactive',
@@ -176,6 +179,7 @@ export const useChatbotStore = create<ChatbotState>((set) => ({
     await new Promise(resolve => setTimeout(resolve, 800));
     const newChatbot: Chatbot = {
       id: `bot_${Date.now()}`,
+      tenantId: data.tenantId || 'tenant_1',
       name: data.name || 'New Chatbot',
       description: data.description || '',
       status: 'inactive',

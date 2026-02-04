@@ -133,6 +133,7 @@ export default function AgentDashboard() {
     getCurrentConversation,
     initializeChat,
     updateAgentStatus,
+    toggleBot,
   } = useChatStore();
 
   // Local state
@@ -848,6 +849,15 @@ export default function AgentDashboard() {
                     <Button variant="outline" size="sm" onClick={() => setShowTransferDialog(true)}>
                       <ArrowRight className="w-4 h-4 mr-2" />
                       Transfer
+                    </Button>
+
+                    <Button
+                      variant={currentConversation.botActive ? "outline" : "default"}
+                      size="sm"
+                      onClick={() => toggleBot(currentConversation.id, !currentConversation.botActive)}
+                    >
+                      <Bot className={cn("w-4 h-4 mr-2", currentConversation.botActive && "text-purple-500")} />
+                      {currentConversation.botActive ? "Bot Active" : "Human Mode"}
                     </Button>
 
                     <Button variant="outline" size="sm" onClick={handleCloseConversation}>
