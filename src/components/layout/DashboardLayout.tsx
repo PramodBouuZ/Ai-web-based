@@ -1,12 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useDashboardStore } from '@/store';
 import { Navigate, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export function DashboardLayout() {
   const { isAuthenticated, isLoading } = useAuthStore();
+  const { sidebarCollapsed } = useDashboardStore();
   const location = useLocation();
 
   if (isLoading) {
@@ -28,20 +29,20 @@ export function DashboardLayout() {
   const getPageTitle = () => {
     const path = location.pathname;
     const titles: Record<string, { title: string; subtitle?: string }> = {
-      '/': { title: 'Dashboard', subtitle: 'Overview of your WhatsApp business' },
-      '/whatsapp': { title: 'WhatsApp Accounts', subtitle: 'Manage your connected accounts' },
-      '/meta-accounts': { title: 'Meta Accounts', subtitle: 'Manage Meta Cloud API connections' },
-      '/messaging': { title: 'Bulk Messaging', subtitle: 'Create and manage campaigns' },
-      '/chatbots': { title: 'Chatbot Builder', subtitle: 'Build AI-powered chatbots' },
-      '/contacts': { title: 'Contacts', subtitle: 'Manage your audience' },
-      '/automations': { title: 'Automations', subtitle: 'Create automated workflows' },
-      '/crm': { title: 'CRM Integration', subtitle: 'Connect with your CRM' },
-      '/analytics': { title: 'Analytics', subtitle: 'Track your performance' },
-      '/users': { title: 'User Management', subtitle: 'Manage team members' },
-      '/subscription': { title: 'Subscription', subtitle: 'Manage your plan' },
-      '/settings': { title: 'Settings', subtitle: 'Configure your account' },
-      '/agent-dashboard': { title: 'Agent Dashboard', subtitle: 'Real-time chat management' },
-      '/routing-rules': { title: 'Routing Rules', subtitle: 'Manage conversation routing' },
+      '/dashboard': { title: 'Dashboard', subtitle: 'Overview of your WhatsApp business' },
+      '/dashboard/whatsapp': { title: 'WhatsApp Accounts', subtitle: 'Manage your connected accounts' },
+      '/dashboard/meta-accounts': { title: 'Meta Accounts', subtitle: 'Manage Meta Cloud API connections' },
+      '/dashboard/messaging': { title: 'Bulk Messaging', subtitle: 'Create and manage campaigns' },
+      '/dashboard/chatbots': { title: 'Chatbot Builder', subtitle: 'Build AI-powered chatbots' },
+      '/dashboard/contacts': { title: 'Contacts', subtitle: 'Manage your audience' },
+      '/dashboard/automations': { title: 'Automations', subtitle: 'Create automated workflows' },
+      '/dashboard/crm': { title: 'CRM Integration', subtitle: 'Connect with your CRM' },
+      '/dashboard/analytics': { title: 'Analytics', subtitle: 'Track your performance' },
+      '/dashboard/users': { title: 'User Management', subtitle: 'Manage team members' },
+      '/dashboard/subscription': { title: 'Subscription', subtitle: 'Manage your plan' },
+      '/dashboard/settings': { title: 'Settings', subtitle: 'Configure your account' },
+      '/dashboard/agent-dashboard': { title: 'Agent Dashboard', subtitle: 'Real-time chat management' },
+      '/dashboard/routing-rules': { title: 'Routing Rules', subtitle: 'Manage conversation routing' },
     };
     return titles[path] || { title: 'Dashboard' };
   };
@@ -51,7 +52,10 @@ export function DashboardLayout() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar />
-      <div className="ml-72 transition-all duration-300">
+      <div className={cn(
+        "transition-all duration-300",
+        sidebarCollapsed ? "ml-20" : "ml-72"
+      )}>
         <Header title={title} subtitle={subtitle} />
         <main className="p-6">
           <div className={cn(

@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useDashboardStore } from '@/store';
 import {
   LayoutDashboard,
   MessageSquare,
@@ -39,25 +38,25 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { label: 'WhatsApp Accounts', icon: MessageSquare, path: '/whatsapp', requiredPermission: { module: 'whatsapp', action: 'view' } },
-  { label: 'Meta Cloud API', icon: Facebook, path: '/meta-accounts', requiredPermission: { module: 'whatsapp', action: 'view' } },
-  { label: 'Bulk Messaging', icon: Send, path: '/messaging', requiredPermission: { module: 'messaging', action: 'view' } },
-  { label: 'Chatbot Builder', icon: Bot, path: '/chatbots', requiredPermission: { module: 'chatbots', action: 'view' } },
-  { label: 'Contacts', icon: Users, path: '/contacts', requiredPermission: { module: 'contacts', action: 'view' } },
-  { label: 'Automations', icon: Workflow, path: '/automations' },
-  { label: 'CRM Integration', icon: Plug, path: '/crm' },
-  { label: 'Agent Dashboard', icon: Headphones, path: '/agent-dashboard', requiredPermission: { module: 'chat', action: 'view' } },
-  { label: 'Routing Rules', icon: Route, path: '/routing-rules', requiredPermission: { module: 'settings', action: 'manage' } },
-  { label: 'Analytics', icon: BarChart3, path: '/analytics', requiredPermission: { module: 'analytics', action: 'view' } },
-  { label: 'User Management', icon: UserCog, path: '/users' },
-  { label: 'Subscription', icon: CreditCard, path: '/subscription' },
-  { label: 'Settings', icon: Settings, path: '/settings' },
+  { label: 'WhatsApp Accounts', icon: MessageSquare, path: '/dashboard/whatsapp', requiredPermission: { module: 'whatsapp', action: 'view' } },
+  { label: 'Meta Cloud API', icon: Facebook, path: '/dashboard/meta-accounts', requiredPermission: { module: 'whatsapp', action: 'view' } },
+  { label: 'Bulk Messaging', icon: Send, path: '/dashboard/messaging', requiredPermission: { module: 'messaging', action: 'view' } },
+  { label: 'Chatbot Builder', icon: Bot, path: '/dashboard/chatbots', requiredPermission: { module: 'chatbots', action: 'view' } },
+  { label: 'Contacts', icon: Users, path: '/dashboard/contacts', requiredPermission: { module: 'contacts', action: 'view' } },
+  { label: 'Automations', icon: Workflow, path: '/dashboard/automations' },
+  { label: 'CRM Integration', icon: Plug, path: '/dashboard/crm' },
+  { label: 'Agent Dashboard', icon: Headphones, path: '/dashboard/agent-dashboard', requiredPermission: { module: 'chat', action: 'view' } },
+  { label: 'Routing Rules', icon: Route, path: '/dashboard/routing-rules', requiredPermission: { module: 'settings', action: 'manage' } },
+  { label: 'Analytics', icon: BarChart3, path: '/dashboard/analytics', requiredPermission: { module: 'analytics', action: 'view' } },
+  { label: 'User Management', icon: UserCog, path: '/dashboard/users' },
+  { label: 'Subscription', icon: CreditCard, path: '/dashboard/subscription' },
+  { label: 'Settings', icon: Settings, path: '/dashboard/settings' },
 ];
 
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const { user, logout, hasPermission } = useAuthStore();
+  const { sidebarCollapsed, setSidebarCollapsed } = useDashboardStore();
 
   const filteredNavItems = navItems.filter(item => {
     if (!item.requiredPermission) return true;
@@ -69,7 +68,7 @@ export function Sidebar() {
       <aside
         className={cn(
           'fixed left-0 top-0 z-40 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-out flex flex-col',
-          collapsed ? 'w-20' : 'w-72'
+          sidebarCollapsed ? 'w-20' : 'w-72'
         )}
       >
         {/* Logo */}
@@ -78,10 +77,10 @@ export function Sidebar() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center flex-shrink-0">
               <MessageCircle className="w-5 h-5 text-white" />
             </div>
-            {!collapsed && (
+            {!sidebarCollapsed && (
               <div className="overflow-hidden">
                 <h1 className="font-bold text-lg text-gray-900 dark:text-white whitespace-nowrap">
-                  WhatsApp Pro
+                  BantConfirm
                 </h1>
                 <p className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Business Platform
@@ -100,17 +99,18 @@ export function Sidebar() {
 
               return (
                 <li key={item.path}>
-                  {collapsed ? (
+                  {sidebarCollapsed ? (
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <NavLink
                           to={item.path}
                           className={cn(
-                            'flex items-center justify-center w-12 h-12 mx-auto rounded-xl transition-all duration-200',
+                            'flex items-center justify-center w-12 h-12 mx-auto rounded-xl transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:outline-none',
                             isActive
                               ? 'bg-[#25D366]/10 text-[#25D366]'
                               : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                           )}
+                          aria-label={item.label}
                         >
                           <item.icon className="w-5 h-5" />
                         </NavLink>
@@ -123,7 +123,7 @@ export function Sidebar() {
                     <NavLink
                       to={item.path}
                       className={cn(
-                        'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200',
+                        'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:outline-none',
                         isActive
                           ? 'bg-[#25D366]/10 text-[#25D366] font-medium'
                           : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
@@ -147,7 +147,7 @@ export function Sidebar() {
           <div
             className={cn(
               'flex items-center gap-3 p-2 rounded-xl bg-gray-50 dark:bg-gray-800/50',
-              collapsed && 'justify-center'
+              sidebarCollapsed && 'justify-center'
             )}
           >
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center flex-shrink-0">
@@ -155,7 +155,7 @@ export function Sidebar() {
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </span>
             </div>
-            {!collapsed && (
+            {!sidebarCollapsed && (
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                   {user?.name}
@@ -165,7 +165,7 @@ export function Sidebar() {
                 </p>
               </div>
             )}
-            {!collapsed && (
+            {!sidebarCollapsed && (
               <Button
                 variant="ghost"
                 size="icon"
@@ -181,11 +181,11 @@ export function Sidebar() {
 
         {/* Collapse Toggle */}
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
           className="absolute -right-3 top-20 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-[#25D366]"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? (
+          {sidebarCollapsed ? (
             <ChevronRight className="w-3 h-3 text-gray-500" />
           ) : (
             <ChevronLeft className="w-3 h-3 text-gray-500" />

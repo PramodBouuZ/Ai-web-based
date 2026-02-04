@@ -146,22 +146,7 @@ export default function AgentDashboard() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Initialize chat
-  useEffect(() => {
-    if (user) {
-      initializeChat('tenant_1', user.id);
-      
-      // Load sample data
-      loadSampleData();
-    }
-  }, [user]);
-
-  // Scroll to bottom of messages
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, currentConversationId]);
-
-  // Load sample data for demo
+  // Load sample data for demo (Defined before useEffect to avoid hoist issues)
   const loadSampleData = () => {
     // Add sample conversations
     const sampleConversations: Conversation[] = [
@@ -426,6 +411,21 @@ export default function AgentDashboard() {
     useChatStore.setState({ messages: sampleMessages });
   };
 
+  // Initialize chat
+  useEffect(() => {
+    if (user) {
+      initializeChat('tenant_1', user.id);
+
+      // Load sample data
+      loadSampleData();
+    }
+  }, [user]);
+
+  // Scroll to bottom of messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, currentConversationId]);
+
   // Handle status change
   const handleStatusChange = (status: AgentStatus) => {
     updateAgentStatus(user?.id || '', status);
@@ -579,7 +579,7 @@ export default function AgentDashboard() {
                 variant="ghost" 
                 size="icon"
                 className="rounded-xl"
-                onClick={() => navigate('/routing-rules')}
+                onClick={() => navigate('/dashboard/routing-rules')}
               >
                 <Route className="w-5 h-5" />
               </Button>
@@ -597,7 +597,7 @@ export default function AgentDashboard() {
                 variant="ghost" 
                 size="icon"
                 className="rounded-xl"
-                onClick={() => navigate('/analytics')}
+                onClick={() => navigate('/dashboard/analytics')}
               >
                 <BarChart3 className="w-5 h-5" />
               </Button>
@@ -617,7 +617,7 @@ export default function AgentDashboard() {
                 variant="ghost" 
                 size="icon"
                 className="rounded-xl"
-                onClick={() => navigate('/settings')}
+                onClick={() => navigate('/dashboard/settings')}
               >
                 <Settings className="w-5 h-5" />
               </Button>

@@ -111,7 +111,7 @@ export function Dashboard() {
           trend={stats.trends.messagesSent}
           icon={Send}
           iconColor="bg-blue-500"
-          linkTo="/messaging"
+          linkTo="/dashboard/messaging"
         />
         <StatCard
           title="Active Conversations"
@@ -119,7 +119,7 @@ export function Dashboard() {
           trend={stats.trends.conversations}
           icon={MessageSquare}
           iconColor="bg-green-500"
-          linkTo="/analytics"
+          linkTo="/dashboard/analytics"
         />
         <StatCard
           title="Total Contacts"
@@ -127,7 +127,7 @@ export function Dashboard() {
           trend={stats.trends.contacts}
           icon={Users}
           iconColor="bg-purple-500"
-          linkTo="/contacts"
+          linkTo="/dashboard/contacts"
         />
         <StatCard
           title="Active Chatbots"
@@ -135,7 +135,7 @@ export function Dashboard() {
           trend={8.2}
           icon={Bot}
           iconColor="bg-orange-500"
-          linkTo="/chatbots"
+          linkTo="/dashboard/chatbots"
         />
       </div>
 
@@ -293,7 +293,7 @@ export function Dashboard() {
               <CardDescription>AI assistant metrics</CardDescription>
             </div>
             <Button variant="ghost" size="icon" asChild aria-label="View chatbot performance">
-              <Link to="/chatbots">
+              <Link to="/dashboard/chatbots">
                 <MoreHorizontal className="w-4 h-4" />
               </Link>
             </Button>
@@ -329,7 +329,7 @@ export function Dashboard() {
               ))}
             </div>
             <Button variant="outline" className="w-full mt-4" asChild>
-              <Link to="/chatbots">
+              <Link to="/dashboard/chatbots">
                 <Plus className="w-4 h-4 mr-2" />
                 Create Chatbot
               </Link>
@@ -345,7 +345,7 @@ export function Dashboard() {
               <CardDescription>Latest actions across your account</CardDescription>
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link to="/analytics">View All</Link>
+              <Link to="/dashboard/analytics">View All</Link>
             </Button>
           </CardHeader>
           <CardContent>
@@ -396,10 +396,10 @@ export function Dashboard() {
       {/* Quick Actions */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'New Campaign', icon: Send, path: '/messaging', color: 'bg-blue-500' },
-          { label: 'Add Contact', icon: Users, path: '/contacts', color: 'bg-green-500' },
-          { label: 'Create Chatbot', icon: Bot, path: '/chatbots', color: 'bg-purple-500' },
-          { label: 'Connect WhatsApp', icon: MessageSquare, path: '/whatsapp', color: 'bg-orange-500' },
+          { label: 'New Campaign', icon: Send, path: '/dashboard/messaging', color: 'bg-blue-500' },
+          { label: 'Add Contact', icon: Users, path: '/dashboard/contacts', color: 'bg-green-500' },
+          { label: 'Create Chatbot', icon: Bot, path: '/dashboard/chatbots', color: 'bg-purple-500' },
+          { label: 'Connect WhatsApp', icon: MessageSquare, path: '/dashboard/whatsapp', color: 'bg-orange-500' },
         ].map((action) => (
           <Button
             key={action.label}

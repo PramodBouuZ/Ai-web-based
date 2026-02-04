@@ -7,6 +7,8 @@ interface DashboardState {
   notifications: Notification[];
   activities: ActivityLog[];
   isLoading: boolean;
+  sidebarCollapsed: boolean;
+  setSidebarCollapsed: (collapsed: boolean) => void;
   fetchStats: () => Promise<void>;
   fetchAnalytics: (days?: number) => Promise<void>;
   markNotificationRead: (id: string) => void;
@@ -150,6 +152,11 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   notifications: mockNotifications,
   activities: mockActivities,
   isLoading: false,
+  sidebarCollapsed: false,
+
+  setSidebarCollapsed: (collapsed: boolean) => {
+    set({ sidebarCollapsed: collapsed });
+  },
 
   fetchStats: async () => {
     set({ isLoading: true });

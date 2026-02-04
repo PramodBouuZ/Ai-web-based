@@ -1,3 +1,0 @@
-import getServerSupabase from '@/lib/supabase/server'
-import AdminStats from '@/components/admin/AdminStats'
-export default async function AdminHome(){ const supabase = getServerSupabase(); const users = await supabase.from('profiles').select('id'); const enquiries = await supabase.from('enquiries').select('id'); const products = await supabase.from('products').select('id'); const stats = [{ label:'Users', value: users.data?.length||0 }, { label:'Enquiries', value: enquiries.data?.length||0 }, { label:'Products', value: products.data?.length||0 }]; return (<div><h1 className='text-3xl font-bold mb-6'>Admin Dashboard</h1><AdminStats data={stats} /></div>) }

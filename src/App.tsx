@@ -50,23 +50,9 @@ function App() {
           <Route path="users" element={<UserManagement />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="agent-dashboard" element={<AgentDashboard />} />
+          <Route path="routing-rules" element={<RoutingRules />} />
         </Route>
-        <Route
-          path="/agent-dashboard"
-          element={
-            <ProtectedRoute>
-              <AgentDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/routing-rules"
-          element={
-            <ProtectedRoute>
-              <RoutingRules />
-            </ProtectedRoute>
-          }
-        />
         <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} replace />} />
       </Routes>
     </BrowserRouter>

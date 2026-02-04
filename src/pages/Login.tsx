@@ -115,8 +115,8 @@ export function Login() {
               <MessageCircle className="w-8 h-8 text-[#25D366]" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white">WhatsApp Pro</h1>
-              <p className="text-white/80">Business Platform</p>
+              <h1 className="text-3xl font-bold text-white tracking-tight">BantConfirm</h1>
+              <p className="text-white/80 font-medium">Business Platform</p>
             </div>
           </div>
 
@@ -158,7 +158,7 @@ export function Login() {
             </div>
             <div>
               <p className="text-white font-semibold">10,000+ Businesses</p>
-              <p className="text-white/70 text-sm">Trust WhatsApp Pro</p>
+              <p className="text-white/70 text-sm">Trust BantConfirm</p>
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@ export function Login() {
             <TabsContent value="login">
               <Card>
                 <CardHeader>
-                  <CardTitle>Welcome Back</CardTitle>
+                  <CardTitle>Login to BantConfirm</CardTitle>
                   <CardDescription>
                     Sign in to your account to continue
                   </CardDescription>
@@ -199,7 +199,7 @@ export function Login() {
                           placeholder="you@example.com"
                           value={loginEmail}
                           onChange={(e) => setLoginEmail(e.target.value)}
-                          className="pl-10"
+                          className="pl-10 focus-visible:ring-[#25D366]"
                           required
                         />
                       </div>
@@ -215,7 +215,7 @@ export function Login() {
                           placeholder="••••••••"
                           value={loginPassword}
                           onChange={(e) => setLoginPassword(e.target.value)}
-                          className="pl-10 pr-10"
+                          className="pl-10 pr-10 focus-visible:ring-[#25D366]"
                           required
                         />
                         <button
@@ -235,14 +235,15 @@ export function Login() {
                           id="remember"
                           checked={rememberMe}
                           onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                          className="data-[state=checked]:bg-[#25D366] data-[state=checked]:border-[#25D366]"
                         />
-                        <Label htmlFor="remember" className="text-sm font-normal">
+                        <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
                           Remember me
                         </Label>
                       </div>
                       <Link
                         to="/forgot-password"
-                        className="text-sm text-[#25D366] hover:underline"
+                        className="text-sm text-[#25D366] hover:underline font-medium"
                       >
                         Forgot password?
                       </Link>
@@ -250,7 +251,7 @@ export function Login() {
 
                     <Button
                       type="submit"
-                      className="w-full gradient-primary hover:opacity-90"
+                      className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white transition-colors"
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -277,11 +278,11 @@ export function Login() {
                     </div>
 
                     <div className="mt-4 grid grid-cols-2 gap-3">
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full hover:bg-gray-50">
                         <Chrome className="w-4 h-4 mr-2" />
                         Google
                       </Button>
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full hover:bg-gray-50">
                         <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M11.4 24H0V12.8h11.4V24zM24 24H12.6V12.8H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/>
                         </svg>
@@ -293,7 +294,7 @@ export function Login() {
                 <CardFooter className="justify-center">
                   <p className="text-sm text-gray-500">
                     Demo credentials:{' '}
-                    <span className="font-mono text-xs">admin@example.com / password</span>
+                    <span className="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded">admin@example.com / password</span>
                   </p>
                 </CardFooter>
               </Card>
@@ -316,6 +317,7 @@ export function Login() {
                         placeholder="John Doe"
                         value={registerName}
                         onChange={(e) => setRegisterName(e.target.value)}
+                        className="focus-visible:ring-[#25D366]"
                         required
                       />
                     </div>
@@ -330,7 +332,7 @@ export function Login() {
                           placeholder="you@example.com"
                           value={registerEmail}
                           onChange={(e) => setRegisterEmail(e.target.value)}
-                          className="pl-10"
+                          className="pl-10 focus-visible:ring-[#25D366]"
                           required
                         />
                       </div>
@@ -346,7 +348,7 @@ export function Login() {
                           placeholder="••••••••"
                           value={registerPassword}
                           onChange={(e) => setRegisterPassword(e.target.value)}
-                          className="pl-10 pr-10"
+                          className="pl-10 pr-10 focus-visible:ring-[#25D366]"
                           required
                         />
                         <button
@@ -368,6 +370,7 @@ export function Login() {
                         placeholder="••••••••"
                         value={registerConfirmPassword}
                         onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                        className="focus-visible:ring-[#25D366]"
                         required
                       />
                     </div>
@@ -377,14 +380,15 @@ export function Login() {
                         id="terms"
                         checked={agreeTerms}
                         onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
+                        className="data-[state=checked]:bg-[#25D366] data-[state=checked]:border-[#25D366] mt-1"
                       />
-                      <Label htmlFor="terms" className="text-sm font-normal leading-tight">
+                      <Label htmlFor="terms" className="text-sm font-normal leading-tight cursor-pointer">
                         I agree to the{' '}
-                        <Link to="/terms" className="text-[#25D366] hover:underline">
+                        <Link to="/terms" className="text-[#25D366] hover:underline font-medium">
                           Terms of Service
                         </Link>{' '}
                         and{' '}
-                        <Link to="/privacy" className="text-[#25D366] hover:underline">
+                        <Link to="/privacy" className="text-[#25D366] hover:underline font-medium">
                           Privacy Policy
                         </Link>
                       </Label>
@@ -392,7 +396,7 @@ export function Login() {
 
                     <Button
                       type="submit"
-                      className="w-full gradient-primary hover:opacity-90"
+                      className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white transition-colors"
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -411,7 +415,7 @@ export function Login() {
                       Already have an account?{' '}
                       <button
                         onClick={() => setActiveTab('login')}
-                        className="text-[#25D366] hover:underline font-medium"
+                        className="text-[#25D366] hover:underline font-semibold"
                       >
                         Sign in
                       </button>

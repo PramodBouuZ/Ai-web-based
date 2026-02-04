@@ -1,2 +1,0 @@
-import getServerSupabase from '@/lib/supabase/server'
-export default async function AdminProducts(){ const supabase = getServerSupabase(); const { data } = await supabase.from('products').select('*').order('created_at', { ascending:false }); return (<div><h1 className='text-2xl font-bold mb-4'>Products</h1><div className='grid md:grid-cols-3 gap-4'>{data?.map(p=>(<div key={p.id} className='card'><h3 className='font-semibold'>{p.name}</h3><p className='text-sm'>{p.description}</p></div>))}</div></div>) }

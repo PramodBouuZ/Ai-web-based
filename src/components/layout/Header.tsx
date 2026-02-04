@@ -40,10 +40,10 @@ export function Header({ title, subtitle }: HeaderProps) {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const quickActions = [
-    { label: 'New Campaign', icon: Send, path: '/messaging', color: 'bg-blue-500' },
-    { label: 'New Chatbot', icon: Bot, path: '/chatbots', color: 'bg-purple-500' },
-    { label: 'Add Contact', icon: Users, path: '/contacts', color: 'bg-green-500' },
-    { label: 'New Message', icon: MessageSquare, path: '/messaging', color: 'bg-orange-500' },
+    { label: 'New Campaign', icon: Send, path: '/dashboard/messaging', color: 'bg-blue-500' },
+    { label: 'New Chatbot', icon: Bot, path: '/dashboard/chatbots', color: 'bg-purple-500' },
+    { label: 'Add Contact', icon: Users, path: '/dashboard/contacts', color: 'bg-green-500' },
+    { label: 'New Message', icon: MessageSquare, path: '/dashboard/messaging', color: 'bg-orange-500' },
   ];
 
   return (
@@ -197,15 +197,15 @@ export function Header({ title, subtitle }: HeaderProps) {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate('/settings')} className="cursor-pointer">
+            <DropdownMenuItem onClick={() => navigate('/dashboard/settings')} className="cursor-pointer">
               <User className="w-4 h-4 mr-2" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/settings')} className="cursor-pointer">
+            <DropdownMenuItem onClick={() => navigate('/dashboard/settings')} className="cursor-pointer">
               <Settings className="w-4 h-4 mr-2" />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/subscription')} className="cursor-pointer">
+            <DropdownMenuItem onClick={() => navigate('/dashboard/subscription')} className="cursor-pointer">
               <Sparkles className="w-4 h-4 mr-2" />
               Subscription
             </DropdownMenuItem>
