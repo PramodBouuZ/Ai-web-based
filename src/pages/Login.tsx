@@ -51,7 +51,7 @@ export function Login() {
   const [agreeTerms, setAgreeTerms] = useState(false);
 
   if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -60,8 +60,8 @@ export function Login() {
 
     try {
       await login(loginEmail, loginPassword);
-      navigate('/');
-    } catch (err) {
+      navigate('/dashboard');
+    } catch {
       setError('Invalid email or password. Try admin@example.com / password');
     }
   };
@@ -82,8 +82,8 @@ export function Login() {
 
     try {
       await register(registerName, registerEmail, registerPassword);
-      navigate('/');
-    } catch (err) {
+      navigate('/dashboard');
+    } catch {
       setError('Registration failed. Please try again.');
     }
   };

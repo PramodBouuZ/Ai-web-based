@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/store';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Login } from '@/pages/Login';
+import { Landing } from '@/pages/Landing';
 import { Dashboard } from '@/pages/Dashboard';
 import { WhatsAppAccounts } from '@/pages/WhatsAppAccounts';
 import { MetaAccounts } from '@/pages/MetaAccounts';
@@ -23,12 +24,14 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
+  const { isAuthenticated } = useAuthStore();
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Landing />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <DashboardLayout />
@@ -64,7 +67,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/"} replace />} />
       </Routes>
     </BrowserRouter>
   );

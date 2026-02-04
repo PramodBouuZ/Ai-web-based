@@ -38,7 +38,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { label: 'WhatsApp Accounts', icon: MessageSquare, path: '/whatsapp', requiredPermission: { module: 'whatsapp', action: 'view' } },
   { label: 'Meta Cloud API', icon: Facebook, path: '/meta-accounts', requiredPermission: { module: 'whatsapp', action: 'view' } },
   { label: 'Bulk Messaging', icon: Send, path: '/messaging', requiredPermission: { module: 'messaging', action: 'view' } },
@@ -96,7 +96,7 @@ export function Sidebar() {
           <ul className="space-y-1">
             {filteredNavItems.map((item) => {
               const isActive = location.pathname === item.path ||
-                (item.path !== '/' && location.pathname.startsWith(item.path));
+                (item.path !== '/dashboard' && location.pathname.startsWith(item.path));
 
               return (
                 <li key={item.path}>
