@@ -1,6 +1,24 @@
+// Tenant Types
+export interface Tenant {
+  id: string;
+  name: string;
+  slug: string;
+  logoUrl?: string;
+  branding: {
+    primaryColor: string;
+    secondaryColor: string;
+  };
+  status: 'active' | 'inactive' | 'suspended';
+  planId: string;
+  planLimits: PlanLimits;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // User Types
 export interface User {
   id: string;
+  tenantId?: string; // Optional for super_admins who might not be tied to a single tenant
   email: string;
   name: string;
   avatar?: string;
@@ -11,7 +29,7 @@ export interface User {
   permissions: Permission[];
 }
 
-export type UserRole = 'super_admin' | 'admin' | 'manager' | 'agent' | 'viewer';
+export type UserRole = 'super_admin' | 'tenant_admin' | 'manager' | 'agent' | 'viewer';
 
 export interface Permission {
   module: string;
@@ -21,6 +39,7 @@ export interface Permission {
 // WhatsApp Account Types
 export interface WhatsAppAccount {
   id: string;
+  tenantId: string;
   name: string;
   phoneNumber: string;
   status: 'connected' | 'disconnected' | 'pending' | 'error';
@@ -35,6 +54,7 @@ export interface WhatsAppAccount {
 // Contact Types
 export interface Contact {
   id: string;
+  tenantId: string;
   name: string;
   phoneNumber: string;
   email?: string;
@@ -80,6 +100,7 @@ export interface TemplateButton {
 
 export interface Campaign {
   id: string;
+  tenantId: string;
   name: string;
   templateId: string;
   template?: MessageTemplate;
@@ -105,6 +126,7 @@ export interface CampaignStats {
 // Chatbot Types
 export interface Chatbot {
   id: string;
+  tenantId: string;
   name: string;
   description?: string;
   status: 'active' | 'inactive' | 'training';
@@ -201,6 +223,7 @@ export type CRMProvider = 'salesforce' | 'hubspot' | 'zoho' | 'pipedrive' | 'fre
 // Automation Types
 export interface Automation {
   id: string;
+  tenantId: string;
   name: string;
   description?: string;
   status: 'active' | 'inactive';

@@ -22,6 +22,7 @@ interface WhatsAppState {
 const mockAccounts: WhatsAppAccount[] = [
   {
     id: 'wa_1',
+    tenantId: 'tenant_1',
     name: 'Main Business Account',
     phoneNumber: '+1 (555) 123-4567',
     status: 'connected',
@@ -33,6 +34,7 @@ const mockAccounts: WhatsAppAccount[] = [
   },
   {
     id: 'wa_2',
+    tenantId: 'tenant_1',
     name: 'Support Line',
     phoneNumber: '+1 (555) 987-6543',
     status: 'connected',
@@ -44,6 +46,7 @@ const mockAccounts: WhatsAppAccount[] = [
   },
   {
     id: 'wa_3',
+    tenantId: 'tenant_2',
     name: 'Marketing Channel',
     phoneNumber: '+1 (555) 456-7890',
     status: 'disconnected',
@@ -102,6 +105,7 @@ const mockTemplates: MessageTemplate[] = [
 const mockCampaigns: Campaign[] = [
   {
     id: 'camp_1',
+    tenantId: 'tenant_1',
     name: 'Summer Sale Announcement',
     templateId: 'temp_3',
     recipients: [],
@@ -121,6 +125,7 @@ const mockCampaigns: Campaign[] = [
   },
   {
     id: 'camp_2',
+    tenantId: 'tenant_1',
     name: 'New Product Launch',
     templateId: 'temp_1',
     recipients: [],
@@ -140,6 +145,7 @@ const mockCampaigns: Campaign[] = [
   },
   {
     id: 'camp_3',
+    tenantId: 'tenant_1',
     name: 'Weekly Newsletter',
     templateId: 'temp_2',
     recipients: [],
@@ -175,6 +181,7 @@ export const useWhatsAppStore = create<WhatsAppState>((set) => ({
     await new Promise(resolve => setTimeout(resolve, 800));
     const newAccount: WhatsAppAccount = {
       id: `wa_${Date.now()}`,
+      tenantId: account.tenantId || 'tenant_1',
       name: account.name || 'New Account',
       phoneNumber: account.phoneNumber || '',
       status: 'pending',
@@ -267,6 +274,7 @@ export const useWhatsAppStore = create<WhatsAppState>((set) => ({
     await new Promise(resolve => setTimeout(resolve, 800));
     const newCampaign: Campaign = {
       id: `camp_${Date.now()}`,
+      tenantId: campaign.tenantId || 'tenant_1',
       name: campaign.name || 'New Campaign',
       templateId: campaign.templateId || '',
       recipients: campaign.recipients || [],

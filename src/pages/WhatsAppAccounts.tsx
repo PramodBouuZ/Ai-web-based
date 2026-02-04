@@ -250,7 +250,7 @@ export function WhatsAppAccounts() {
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" aria-label="Account actions">
                       <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -348,7 +348,7 @@ export function WhatsAppAccounts() {
                     Connect
                   </Button>
                 )}
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" aria-label="Account settings">
                   <Settings className="w-4 h-4" />
                 </Button>
               </div>

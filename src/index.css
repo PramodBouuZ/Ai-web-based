@@ -17,7 +17,7 @@
   --card-foreground: 0 0% 10%;
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 10%;
-  --primary: 142 70% 49%;
+  --primary: 216 90% 45%;
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 96%;
   --secondary-foreground: 0 0% 10%;
@@ -29,7 +29,7 @@
   --destructive-foreground: 0 0% 100%;
   --border: 0 0% 88%;
   --input: 0 0% 88%;
-  --ring: 142 70% 49%;
+  --ring: 216 90% 45%;
   --radius: 0.75rem;
   
   /* Semantic Colors */
@@ -46,7 +46,7 @@
   --card-foreground: 0 0% 98%;
   --popover: 0 0% 8%;
   --popover-foreground: 0 0% 98%;
-  --primary: 142 70% 49%;
+  --primary: 216 90% 45%;
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 15%;
   --secondary-foreground: 0 0% 98%;
@@ -58,7 +58,7 @@
   --destructive-foreground: 0 0% 100%;
   --border: 0 0% 20%;
   --input: 0 0% 20%;
-  --ring: 142 70% 49%;
+  --ring: 216 90% 45%;
 }
 
 @layer base {
@@ -229,11 +229,11 @@
 
 /* Gradient backgrounds */
 .gradient-primary {
-  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  background: linear-gradient(135deg, #0B5ED7 0%, #084298 100%);
 }
 
 .gradient-dark {
-  background: linear-gradient(135deg, #075E54 0%, #128C7E 100%);
+  background: linear-gradient(135deg, #052c65 0%, #084298 100%);
 }
 
 .gradient-subtle {
@@ -320,7 +320,7 @@
 }
 
 .flow-node.selected {
-  @apply border-[#25D366] shadow-lg;
+  @apply border-[#0B5ED7] shadow-lg;
   box-shadow: 0 0 0 4px hsl(var(--primary) / 0.2);
 }
 
@@ -329,7 +329,7 @@
 }
 
 .flow-connection.active {
-  @apply stroke-[#25D366];
+  @apply stroke-[#0B5ED7];
   stroke-dasharray: 8;
   animation: dash 1s linear infinite;
 }
@@ -392,7 +392,7 @@
 
 .plan-highlighted::before {
   content: '';
-  @apply absolute -inset-0.5 bg-gradient-to-r from-[#25D366] to-[#128C7E] rounded-2xl opacity-50 blur-sm;
+  @apply absolute -inset-0.5 bg-gradient-to-r from-[#0B5ED7] to-[#084298] rounded-2xl opacity-50 blur-sm;
   z-index: -1;
 }
 
@@ -423,7 +423,7 @@
 
 /* Focus visible */
 .focus-visible-ring:focus-visible {
-  @apply outline-none ring-2 ring-[#25D366] ring-offset-2 ring-offset-background;
+  @apply outline-none ring-2 ring-[#0B5ED7] ring-offset-2 ring-offset-background;
 }
 
 /* Reduced motion */

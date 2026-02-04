@@ -16,6 +16,7 @@ interface AuthState {
 const mockUsers: Record<string, User> = {
   'admin@example.com': {
     id: '1',
+    tenantId: 'tenant_1',
     email: 'admin@example.com',
     name: 'Super Admin',
     role: 'super_admin',
@@ -26,8 +27,22 @@ const mockUsers: Record<string, User> = {
       { module: '*', actions: ['view', 'create', 'edit', 'delete', 'manage'] },
     ],
   },
-  'manager@example.com': {
+  'tenant@example.com': {
     id: '2',
+    tenantId: 'tenant_1',
+    email: 'tenant@example.com',
+    name: 'Tenant Admin',
+    role: 'tenant_admin',
+    status: 'active',
+    lastLoginAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    permissions: [
+      { module: '*', actions: ['view', 'create', 'edit', 'delete', 'manage'] },
+    ],
+  },
+  'manager@example.com': {
+    id: '3',
+    tenantId: 'tenant_1',
     email: 'manager@example.com',
     name: 'John Manager',
     role: 'manager',
@@ -43,7 +58,8 @@ const mockUsers: Record<string, User> = {
     ],
   },
   'agent@example.com': {
-    id: '3',
+    id: '4',
+    tenantId: 'tenant_1',
     email: 'agent@example.com',
     name: 'Sarah Agent',
     role: 'agent',
@@ -54,6 +70,7 @@ const mockUsers: Record<string, User> = {
       { module: 'whatsapp', actions: ['view'] },
       { module: 'messaging', actions: ['view', 'create'] },
       { module: 'contacts', actions: ['view', 'create', 'edit'] },
+      { module: 'chat', actions: ['view', 'create', 'edit'] },
     ],
   },
 };
@@ -93,9 +110,10 @@ export const useAuthStore = create<AuthState>()(
         
         const newUser: User = {
           id: Date.now().toString(),
+          tenantId: 'tenant_new',
           email,
           name,
-          role: 'admin',
+          role: 'tenant_admin',
           status: 'active',
           lastLoginAt: new Date().toISOString(),
           createdAt: new Date().toISOString(),
@@ -106,6 +124,7 @@ export const useAuthStore = create<AuthState>()(
             { module: 'contacts', actions: ['view', 'create', 'edit', 'manage'] },
             { module: 'analytics', actions: ['view'] },
             { module: 'settings', actions: ['view', 'edit'] },
+            { module: 'chat', actions: ['view', 'create', 'edit', 'manage'] },
           ],
         };
         

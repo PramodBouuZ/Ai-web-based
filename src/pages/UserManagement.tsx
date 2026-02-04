@@ -60,6 +60,7 @@ import type { User as UserType, UserRole } from '@/types';
 const mockUsers: UserType[] = [
   {
     id: '1',
+    tenantId: 'tenant_1',
     email: 'admin@example.com',
     name: 'Super Admin',
     role: 'super_admin',
@@ -70,6 +71,7 @@ const mockUsers: UserType[] = [
   },
   {
     id: '2',
+    tenantId: 'tenant_1',
     email: 'john@example.com',
     name: 'John Manager',
     role: 'manager',
@@ -86,6 +88,7 @@ const mockUsers: UserType[] = [
   },
   {
     id: '3',
+    tenantId: 'tenant_1',
     email: 'sarah@example.com',
     name: 'Sarah Agent',
     role: 'agent',
@@ -100,6 +103,7 @@ const mockUsers: UserType[] = [
   },
   {
     id: '4',
+    tenantId: 'tenant_1',
     email: 'mike@example.com',
     name: 'Mike Viewer',
     role: 'viewer',
@@ -113,9 +117,10 @@ const mockUsers: UserType[] = [
   },
   {
     id: '5',
+    tenantId: 'tenant_1',
     email: 'emma@example.com',
     name: 'Emma Admin',
-    role: 'admin',
+    role: 'tenant_admin',
     status: 'active',
     lastLoginAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45).toISOString(),
@@ -132,7 +137,7 @@ const mockUsers: UserType[] = [
 
 const rolePermissions: Record<UserRole, string[]> = {
   super_admin: ['Full Access'],
-  admin: ['Manage WhatsApp', 'Manage Messaging', 'Manage Chatbots', 'Manage Contacts', 'View Users', 'View Analytics'],
+  tenant_admin: ['Manage WhatsApp', 'Manage Messaging', 'Manage Chatbots', 'Manage Contacts', 'View Users', 'View Analytics'],
   manager: ['Manage WhatsApp', 'Manage Messaging', 'Edit Chatbots', 'Manage Contacts', 'View Analytics'],
   agent: ['View WhatsApp', 'Send Messages', 'Manage Contacts'],
   viewer: ['View Only'],
@@ -239,7 +244,7 @@ export function UserManagement() {
               <div>
                 <p className="text-sm text-gray-500">Admins</p>
                 <p className="text-3xl font-bold">
-                  {users.filter((u) => u.role === 'admin' || u.role === 'super_admin').length}
+                  {users.filter((u) => u.role === 'tenant_admin' || u.role === 'super_admin').length}
                 </p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
@@ -316,7 +321,7 @@ export function UserManagement() {
                   onChange={(e) => setInviteRole(e.target.value as UserRole)}
                   className="w-full px-3 py-2 border rounded-md"
                 >
-                  <option value="admin">Admin</option>
+                  <option value="tenant_admin">Admin</option>
                   <option value="manager">Manager</option>
                   <option value="agent">Agent</option>
                   <option value="viewer">Viewer</option>
