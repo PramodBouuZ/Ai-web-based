@@ -76,7 +76,8 @@ export function Header({ title, subtitle }: HeaderProps) {
             <Button
               variant="outline"
               size="icon"
-              className="relative"
+              className="relative focus-visible:ring-2 focus-visible:ring-[#25D366]"
+              aria-label="Quick actions"
             >
               <Plus className="w-4 h-4" />
             </Button>
@@ -105,7 +106,8 @@ export function Header({ title, subtitle }: HeaderProps) {
             <Button
               variant="outline"
               size="icon"
-              className="relative"
+              className="relative focus-visible:ring-2 focus-visible:ring-[#25D366]"
+              aria-label="Notifications"
             >
               <Bell className="w-4 h-4" />
               {unreadCount > 0 && (

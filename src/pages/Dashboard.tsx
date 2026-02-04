@@ -292,7 +292,7 @@ export function Dashboard() {
               <CardTitle>Chatbot Performance</CardTitle>
               <CardDescription>AI assistant metrics</CardDescription>
             </div>
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild aria-label="View chatbot performance">
               <Link to="/chatbots">
                 <MoreHorizontal className="w-4 h-4" />
               </Link>
