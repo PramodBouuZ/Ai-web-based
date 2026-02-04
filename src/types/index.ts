@@ -4,15 +4,16 @@ export interface Tenant {
   name: string;
   slug: string;
   logoUrl?: string;
-  branding: {
+  branding?: {
     primaryColor: string;
     secondaryColor: string;
   };
   status: 'active' | 'inactive' | 'suspended';
-  planId: string;
-  planLimits: PlanLimits;
+  plan: string;
+  userCount: number;
+  whatsappAccounts: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 // User Types

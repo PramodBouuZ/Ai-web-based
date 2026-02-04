@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Plus,
@@ -17,7 +18,8 @@ import {
   Palette,
   CheckCircle2,
   XCircle,
-  MoreVertical
+  MoreVertical,
+  Trash2
 } from 'lucide-react';
 import {
   Table,
@@ -43,6 +45,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useAuthStore } from '@/store';
+import { useTenantStore } from '../store/tenantStore';
 
 export function TenantManagement() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,39 +54,28 @@ export function TenantManagement() {
   const [selectedTenant, setSelectedTenant] = useState<any>(null);
   const [isBrandingDialogOpen, setIsBrandingDialogOpen] = useState(false);
   const { updateUser } = useAuthStore();
+  const { tenants, addTenant, deleteTenant } = useTenantStore();
 
-  const mockTenants = [
-    {
-      id: 'tenant_1',
-      name: 'Acme Corp',
-      slug: 'acme',
-      status: 'active',
-      plan: 'Enterprise',
-      users: 12,
-      whatsappAccounts: 5,
-      createdAt: '2024-01-15',
-    },
-    {
-      id: 'tenant_2',
-      name: 'Global Tech',
-      slug: 'global-tech',
-      status: 'active',
-      plan: 'Professional',
-      users: 5,
-      whatsappAccounts: 2,
-      createdAt: '2024-02-01',
-    },
-    {
-      id: 'tenant_3',
-      name: 'Startup Inc',
-      slug: 'startup',
-      status: 'inactive',
-      plan: 'Free',
-      users: 1,
-      whatsappAccounts: 1,
-      createdAt: '2024-03-10',
+  const [formData, setFormData] = useState({ name: '', slug: '' });
+
+  const filteredTenants = tenants.filter(t =>
+    t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    t.slug.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleCreateTenant = () => {
+    if (formData.name && formData.slug) {
+      addTenant({
+        name: formData.name,
+        slug: formData.slug,
+        plan: 'Free',
+        userCount: 1,
+        whatsappAccounts: 0,
+      });
+      setIsCreateDialogOpen(false);
+      setFormData({ name: '', slug: '' });
     }
-  ];
+  };
 
   return (
     <div className="space-y-6">
@@ -139,7 +131,7 @@ export function TenantManagement() {
             className="pl-10"
           />
         </div>
-        <Button className="gradient-primary">
+        <Button className="gradient-primary" onClick={() => setIsCreateDialogOpen(true)}>
           <Plus className="w-4 h-4 mr-2" />
           Create Tenant
         </Button>
@@ -160,7 +152,7 @@ export function TenantManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockTenants.map((tenant) => (
+              {filteredTenants.map((tenant) => (
                 <TableRow key={tenant.id}>
                   <TableCell>
                     <div>
@@ -174,7 +166,7 @@ export function TenantManagement() {
                     </Badge>
                   </TableCell>
                   <TableCell>{tenant.plan}</TableCell>
-                  <TableCell>{tenant.users}</TableCell>
+                  <TableCell>{tenant.userCount}</TableCell>
                   <TableCell>{tenant.whatsappAccounts}</TableCell>
                   <TableCell>{tenant.createdAt}</TableCell>
                   <TableCell>
@@ -208,6 +200,13 @@ export function TenantManagement() {
                           Plan Limits
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          className="text-destructive"
+                          onClick={() => deleteTenant(tenant.id)}
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Tenant
+                        </DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">
                           <XCircle className="w-4 h-4 mr-2" />
                           Disable Tenant
@@ -224,24 +223,81 @@ export function TenantManagement() {
 
       {/* Create Tenant Dialog */}
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create New Tenant</DialogTitle>
-            <DialogDescription>Add a new organization to the platform.</DialogDescription>
+            <DialogDescription>Add a new organization and set up the initial administrator.</DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="tenant-name">Organization Name</Label>
-              <Input id="tenant-name" placeholder="Acme Inc" />
+          <div className="space-y-6 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="tenant-name">Organization Name</Label>
+                <Input
+                  id="tenant-name"
+                  placeholder="Acme Inc"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tenant-slug">Slug (URL)</Label>
+                <Input
+                  id="tenant-slug"
+                  placeholder="acme-inc"
+                  value={formData.slug}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="tenant-slug">Slug (URL)</Label>
-              <Input id="tenant-slug" placeholder="acme-inc" />
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h4 className="font-medium flex items-center gap-2 text-primary">
+                <Users className="w-4 h-4" />
+                Initial Administrator
+              </h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admin-name">Admin Name</Label>
+                  <Input id="admin-name" placeholder="John Doe" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="admin-email">Admin Email</Label>
+                  <Input id="admin-email" type="email" placeholder="admin@acme.com" />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <h4 className="font-medium flex items-center gap-2 text-primary">
+                <Shield className="w-4 h-4" />
+                Initial Permissions
+              </h4>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                {[
+                  'Manage WhatsApp Accounts',
+                  'Create Messaging Campaigns',
+                  'Build AI Chatbots',
+                  'Manage Contacts',
+                  'View Advanced Analytics',
+                  'Manage Team Members',
+                  'Configure System Settings',
+                  'Handle Billing & Subscription'
+                ].map((perm) => (
+                  <div key={perm} className="flex items-center space-x-2">
+                    <input type="checkbox" id={perm} className="rounded border-gray-300 text-primary focus:ring-primary h-4 w-4" defaultChecked />
+                    <Label htmlFor={perm} className="text-sm font-normal cursor-pointer">{perm}</Label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>Cancel</Button>
-            <Button className="gradient-primary">Create Tenant</Button>
+            <Button className="gradient-primary" onClick={handleCreateTenant}>Create Tenant</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
